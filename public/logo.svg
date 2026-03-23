@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F2277E"/>
+      <stop offset="100%" stop-color="#D81B60"/>
+    </linearGradient>
+    <filter id="drop-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#D81B60" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+  
+  <!-- Pink Circular Background -->
+  <circle cx="200" cy="200" r="180" fill="url(#bg)" filter="url(#drop-shadow)"/>
+  
+  <!-- White Tooth -->
+  <path d="M 140 100 
+           C 90 100, 80 150, 80 190 
+           C 80 240, 110 270, 130 310 
+           C 140 330, 150 350, 170 350 
+           C 190 350, 200 310, 200 280 
+           C 200 310, 210 350, 230 350 
+           C 250 350, 260 330, 270 310 
+           C 290 270, 320 240, 320 190 
+           C 320 150, 310 100, 260 100 
+           C 230 100, 210 130, 200 140 
+           C 190 130, 170 100, 140 100 Z" 
+        fill="#FFFFFF" />
+        
+  <!-- Pink Sparkle -->
+  <path d="M 270 120 
+           C 270 140, 290 140, 290 140 
+           C 270 140, 270 160, 270 160 
+           C 270 140, 250 140, 250 140 
+           C 270 140, 270 120, 270 120 Z" 
+        fill="#F2277E" />
+</svg>

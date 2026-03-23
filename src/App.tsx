@@ -55,7 +55,7 @@ export default function App() {
         <div className="max-w-7xl mx-auto px-4 md:px-6 py-3 md:py-4 flex justify-between items-center">
           <div className="flex items-center gap-2 md:gap-3">
             <div className="w-10 h-10 md:w-14 md:h-14 rounded-full overflow-hidden border-2 border-dentista-pink shadow-sm bg-white flex-shrink-0 flex items-center justify-center">
-              <img src="/logo.png" alt="Dentista Logo" className="w-full h-full object-cover scale-[1.2]" onError={(e) => { e.currentTarget.src = 'https://ui-avatars.com/api/?name=D&background=F2277E&color=fff&rounded=true' }} />
+              <img src="/logo.svg" alt="Dentista Logo" className="w-full h-full p-1" onError={(e) => { e.currentTarget.src = 'https://ui-avatars.com/api/?name=D&background=F2277E&color=fff&rounded=true' }} />
             </div>
             <span className="text-2xl md:text-3xl font-extrabold text-dentista-teal tracking-tighter">Dentista</span>
           </div>
@@ -321,7 +321,7 @@ export default function App() {
       <footer className="bg-dentista-dark text-gray-400 py-12 text-center border-t-4 border-dentista-pink">
         <div className="flex justify-center items-center gap-3 mb-6">
           <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-dentista-pink shadow-sm bg-white flex-shrink-0 flex items-center justify-center">
-            <img src="/logo.png" alt="Dentista Logo" className="w-full h-full object-cover scale-[1.2]" onError={(e) => { e.currentTarget.src = 'https://ui-avatars.com/api/?name=D&background=F2277E&color=fff&rounded=true' }} />
+            <img src="/logo.svg" alt="Dentista Logo" className="w-full h-full p-1.5" onError={(e) => { e.currentTarget.src = 'https://ui-avatars.com/api/?name=D&background=F2277E&color=fff&rounded=true' }} />
           </div>
           <span className="text-3xl font-extrabold text-white tracking-tighter">Dentista</span>
         </div>
