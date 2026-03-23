@@ -1,7 +1,6 @@
-import { useState, useMemo } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { MessageCircle, X, Send } from 'lucide-react';
-import { GoogleGenAI, GenerateContentResponse } from '@google/genai';
 
 export default function Chatbot() {
   const [isOpen, setIsOpen] = useState(false);
@@ -10,129 +9,32 @@ export default function Chatbot() {
   ]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [isWaiting, setIsWaiting] = useState(false);
-
-  // Initialize AI lazily to prevent app crash if API key is missing
-  const ai = useMemo(() => {
-    // Standard way to access the environment variable.
-    // Vite's define will replace this with a string literal that the platform will then replace.
-    const key = process.env.GEMINI_API_KEY;
-    
-    const isPlaceholder = !key || 
-                         key === 'process.env.GEMINI_API_KEY' || 
-                         key === 'UNDEFINED' || 
-                         key === '' ||
-                         (typeof key === 'string' && key.startsWith('MY_'));
-    
-    console.log("Chatbot: API Key status:", isPlaceholder ? 'Missing/Placeholder' : 'Present');
-    
-    if (isPlaceholder) return null;
-    
-    try {
-      return new GoogleGenAI({ apiKey: key });
-    } catch (e) {
-      console.error("Chatbot: Failed to initialize Gemini AI:", e);
-      return null;
-    }
-  }, []);
-
-  const [chat] = useState(() => {
-    if (!ai) {
-      console.log("Chatbot: AI instance is null, skipping chat creation.");
-      return null;
-    }
-    try {
-      console.log("Chatbot: Creating chat instance...");
-      const newChat = ai.chats.create({ 
-        model: 'gemini-3-flash-preview',
-        config: {
-          systemInstruction: `You are the official AI assistant for "Dentista", a premium dental clinic. 
-Your primary job is to assist patients with information about the clinic, its services, doctors, and contact details.
-DO NOT answer any questions that are not related to the clinic, dentistry, or booking appointments. If a user asks an out-of-box or irrelevant question, politely decline and steer the conversation back to the clinic's services.
-
-Clinic Information:
-- Name: Dentista
-- Location: 101, Premium Plaza, Sector 18, Noida, UP 201301
-- Phone: +91 98765 43210
-- Email: contact@dentista.in, support@dentista.in
-- Timings: Mon-Sat, 9am - 6pm
-
-Doctors:
-1. Dr. Deval Naik: Co-founder & Dental Surgeon. Earned BDS from MGV Dental College & Hospital, Nasik in 2005. Specializes in Cosmetic & Restorative Dentistry.
-2. Dr. Tejal Shah: Co-founder & Dental Surgeon. Earned BDS from Maharashtra University of Health Science (Nashik) in 2005. Specializes in Cosmetic & Restorative Dentistry.
-
-Services Offered:
-- Teeth Cleaning: Advanced ultrasonic cleaning.
-- Root Canal: Pain-free, expert root canal therapy.
-- Braces & Aligners: Customized orthodontic solutions.
-- Teeth Whitening: Professional-grade whitening.
-- Dental Implants: State-of-the-art permanent implants.
-- Oral Surgery: Safe and comfortable surgical procedures.
-
-Be polite, professional, and concise in your responses. Always encourage users to book an appointment or contact the clinic for specific medical advice.`
-        }
-      });
-      console.log("Chatbot: Chat instance created successfully.");
-      return newChat;
-    } catch (e) {
-      console.error("Chatbot: Failed to create chat:", e);
-      return null;
-    }
-  });
 
   const handleSend = async () => {
     if (!input.trim()) return;
     const userMsg = { role: 'user' as const, text: input };
     setMessages(prev => [...prev, userMsg]);
     setInput('');
-
-    if (!chat) {
-      setMessages(prev => [...prev, { role: 'bot', text: 'Sorry, the chatbot is currently unavailable. Please check the API key configuration.' }]);
-      return;
-    }
-
     setIsLoading(true);
-    setIsWaiting(true);
-    
-    // Add an empty bot message placeholder that we will update with the stream
-    setMessages(prev => [...prev, { role: 'bot', text: '' }]);
-    
+
     try {
-      const responseStream = await chat.sendMessageStream({ message: input });
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          messages: [...messages, userMsg].map(m => ({ role: m.role, content: m.text }))
+        }),
+      });
+
+      if (!response.ok) throw new Error('Failed to get response');
       
-      let fullText = '';
-      let isFirstChunk = true;
-      
-      for await (const chunk of responseStream) {
-        if (isFirstChunk) {
-          setIsWaiting(false); // Turn off loading indicator as soon as the first token arrives
-          isFirstChunk = false;
-        }
-        
-        const c = chunk as GenerateContentResponse;
-        fullText += (c.text || '');
-        
-        setMessages(prev => {
-          const newMessages = [...prev];
-          newMessages[newMessages.length - 1] = { role: 'bot', text: fullText };
-          return newMessages;
-        });
-      }
+      const data = await response.json();
+      setMessages(prev => [...prev, { role: 'bot', text: data.response }]);
     } catch (error) {
       console.error("Chat error:", error);
-      setMessages(prev => {
-        const newMessages = [...prev];
-        const existingText = newMessages[newMessages.length - 1].text;
-        const errorMessage = error instanceof Error ? error.message : String(error);
-        newMessages[newMessages.length - 1] = { 
-          role: 'bot', 
-          text: existingText ? existingText + `\n\n[Error: ${errorMessage}]` : `Sorry, I encountered an error: ${errorMessage}` 
-        };
-        return newMessages;
-      });
+      setMessages(prev => [...prev, { role: 'bot', text: 'Sorry, I encountered an error.' }]);
     } finally {
       setIsLoading(false);
-      setIsWaiting(false);
     }
   };
 
@@ -157,13 +59,6 @@ Be polite, professional, and concise in your responses. Always encourage users t
                   {m.text}
                 </div>
               ))}
-              {isWaiting && (
-                <div className="bg-gray-50 text-gray-700 border border-gray-100 p-3 rounded-xl text-sm w-fit max-w-[85%] flex items-center gap-1.5">
-                  <span className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></span>
-                  <span className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></span>
-                  <span className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></span>
-                </div>
-              )}
             </div>
             <div className="p-3 border-t flex gap-2">
               <input
