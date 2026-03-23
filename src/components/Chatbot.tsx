@@ -1,9 +1,7 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { MessageCircle, X, Send } from 'lucide-react';
 import { GoogleGenAI } from '@google/genai';
-
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY! });
 
 export default function Chatbot() {
   const [isOpen, setIsOpen] = useState(false);
@@ -11,10 +9,24 @@ export default function Chatbot() {
     { role: 'bot', text: 'Hello! How can I help you with your dental needs today?' }
   ]);
   const [input, setInput] = useState('');
-  const [chat] = useState(() => ai.chats.create({ 
-    model: 'gemini-3-flash-preview',
-    config: {
-      systemInstruction: `You are the official AI assistant for "Dentista", a premium dental clinic. 
+
+  // Initialize AI lazily to prevent app crash if API key is missing
+  const ai = useMemo(() => {
+    try {
+      return new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY || '' });
+    } catch (e) {
+      console.error("Failed to initialize Gemini AI:", e);
+      return null;
+    }
+  }, []);
+
+  const [chat] = useState(() => {
+    if (!ai) return null;
+    try {
+      return ai.chats.create({ 
+        model: 'gemini-3-flash-preview',
+        config: {
+          systemInstruction: `You are the official AI assistant for "Dentista", a premium dental clinic. 
 Your primary job is to assist patients with information about the clinic, its services, doctors, and contact details.
 DO NOT answer any questions that are not related to the clinic, dentistry, or booking appointments. If a user asks an out-of-box or irrelevant question, politely decline and steer the conversation back to the clinic's services.
 
@@ -38,8 +50,13 @@ Services Offered:
 - Oral Surgery: Safe and comfortable surgical procedures.
 
 Be polite, professional, and concise in your responses. Always encourage users to book an appointment or contact the clinic for specific medical advice.`
+        }
+      });
+    } catch (e) {
+      console.error("Failed to create chat:", e);
+      return null;
     }
-  }));
+  });
 
   const handleSend = async () => {
     if (!input.trim()) return;
@@ -47,8 +64,18 @@ Be polite, professional, and concise in your responses. Always encourage users t
     setMessages(prev => [...prev, userMsg]);
     setInput('');
 
-    const response = await chat.sendMessage({ message: input });
-    setMessages(prev => [...prev, { role: 'bot', text: response.text || 'Sorry, I could not understand that.' }]);
+    if (!chat) {
+      setMessages(prev => [...prev, { role: 'bot', text: 'Sorry, the chatbot is currently unavailable. Please check the API key configuration.' }]);
+      return;
+    }
+
+    try {
+      const response = await chat.sendMessage({ message: input });
+      setMessages(prev => [...prev, { role: 'bot', text: response.text || 'Sorry, I could not understand that.' }]);
+    } catch (error) {
+      console.error("Chat error:", error);
+      setMessages(prev => [...prev, { role: 'bot', text: 'Sorry, I encountered an error. Please try again later.' }]);
+    }
   };
 
   return (
