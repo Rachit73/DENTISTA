@@ -10,6 +10,7 @@ export default function Chatbot() {
   ]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [isWaiting, setIsWaiting] = useState(false);
 
   // Initialize AI lazily to prevent app crash if API key is missing
   const ai = useMemo(() => {
@@ -71,6 +72,7 @@ Be polite, professional, and concise in your responses. Always encourage users t
     }
 
     setIsLoading(true);
+    setIsWaiting(true);
     
     // Add an empty bot message placeholder that we will update with the stream
     setMessages(prev => [...prev, { role: 'bot', text: '' }]);
@@ -83,7 +85,7 @@ Be polite, professional, and concise in your responses. Always encourage users t
       
       for await (const chunk of responseStream) {
         if (isFirstChunk) {
-          setIsLoading(false); // Turn off loading indicator as soon as the first token arrives
+          setIsWaiting(false); // Turn off loading indicator as soon as the first token arrives
           isFirstChunk = false;
         }
         
@@ -100,11 +102,16 @@ Be polite, professional, and concise in your responses. Always encourage users t
       console.error("Chat error:", error);
       setMessages(prev => {
         const newMessages = [...prev];
-        newMessages[newMessages.length - 1] = { role: 'bot', text: 'Sorry, I encountered an error. Please try again later.' };
+        const existingText = newMessages[newMessages.length - 1].text;
+        newMessages[newMessages.length - 1] = { 
+          role: 'bot', 
+          text: existingText ? existingText + '\n\n[Error: Connection interrupted. Please try again.]' : 'Sorry, I encountered an error. Please try again later.' 
+        };
         return newMessages;
       });
     } finally {
       setIsLoading(false);
+      setIsWaiting(false);
     }
   };
 
@@ -128,7 +135,7 @@ Be polite, professional, and concise in your responses. Always encourage users t
                   {m.text}
                 </div>
               ))}
-              {isLoading && (
+              {isWaiting && (
                 <div className="bg-gray-50 text-gray-700 border border-gray-100 p-3 rounded-xl text-sm w-fit max-w-[85%] flex items-center gap-1.5">
                   <span className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></span>
                   <span className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></span>
