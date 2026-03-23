@@ -249,6 +249,10 @@ export default function App() {
                   <label className="block text-sm font-semibold text-gray-600 mb-2">Preferred Date</label>
                   <input required type="date" className="w-full p-4 rounded-2xl bg-gray-50 border border-gray-200 focus:ring-2 focus:ring-dentista-pink focus:border-transparent outline-none transition-all" />
                 </div>
+                <div>
+                  <label className="block text-sm font-semibold text-gray-600 mb-2">Preferred Time</label>
+                  <input required type="time" className="w-full p-4 rounded-2xl bg-gray-50 border border-gray-200 focus:ring-2 focus:ring-dentista-pink focus:border-transparent outline-none transition-all" />
+                </div>
                 <button type="submit" className="w-full bg-dentista-pink text-white py-5 rounded-2xl text-xl font-bold hover:bg-pink-600 hover:shadow-lg transition-all transform active:scale-95">
                   Confirm Appointment
                 </button>
