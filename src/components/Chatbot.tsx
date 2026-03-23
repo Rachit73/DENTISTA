@@ -14,18 +14,36 @@ export default function Chatbot() {
 
   // Initialize AI lazily to prevent app crash if API key is missing
   const ai = useMemo(() => {
+    // Standard way to access the environment variable.
+    // Vite's define will replace this with a string literal that the platform will then replace.
+    const key = process.env.GEMINI_API_KEY;
+    
+    const isPlaceholder = !key || 
+                         key === 'process.env.GEMINI_API_KEY' || 
+                         key === 'UNDEFINED' || 
+                         key === '' ||
+                         (typeof key === 'string' && key.startsWith('MY_'));
+    
+    console.log("Chatbot: API Key status:", isPlaceholder ? 'Missing/Placeholder' : 'Present');
+    
+    if (isPlaceholder) return null;
+    
     try {
-      return new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY || '' });
+      return new GoogleGenAI({ apiKey: key });
     } catch (e) {
-      console.error("Failed to initialize Gemini AI:", e);
+      console.error("Chatbot: Failed to initialize Gemini AI:", e);
       return null;
     }
   }, []);
 
   const [chat] = useState(() => {
-    if (!ai) return null;
+    if (!ai) {
+      console.log("Chatbot: AI instance is null, skipping chat creation.");
+      return null;
+    }
     try {
-      return ai.chats.create({ 
+      console.log("Chatbot: Creating chat instance...");
+      const newChat = ai.chats.create({ 
         model: 'gemini-3-flash-preview',
         config: {
           systemInstruction: `You are the official AI assistant for "Dentista", a premium dental clinic. 
@@ -54,8 +72,10 @@ Services Offered:
 Be polite, professional, and concise in your responses. Always encourage users to book an appointment or contact the clinic for specific medical advice.`
         }
       });
+      console.log("Chatbot: Chat instance created successfully.");
+      return newChat;
     } catch (e) {
-      console.error("Failed to create chat:", e);
+      console.error("Chatbot: Failed to create chat:", e);
       return null;
     }
   });
