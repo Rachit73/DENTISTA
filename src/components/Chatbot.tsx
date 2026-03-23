@@ -120,6 +120,7 @@ Be polite, professional, and concise in your responses. Always encourage users t
       <AnimatePresence>
         {isOpen && (
           <motion.div
+            key="chatbot-window"
             initial={{ opacity: 0, scale: 0.9, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
@@ -150,7 +151,7 @@ Be polite, professional, and concise in your responses. Always encourage users t
                 disabled={isLoading}
                 className="flex-1 border border-gray-200 rounded-full px-4 py-2 text-sm focus:outline-none focus:border-dentista-pink disabled:opacity-50 disabled:bg-gray-50"
                 placeholder="Ask something..."
-                onKeyPress={(e) => e.key === 'Enter' && !isLoading && handleSend()}
+                onKeyDown={(e) => e.key === 'Enter' && !isLoading && handleSend()}
               />
               <button 
                 onClick={handleSend} 
