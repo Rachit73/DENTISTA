@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { MessageCircle, X, Send } from 'lucide-react';
-import { GoogleGenAI } from '@google/genai';
+import { GoogleGenAI, GenerateContentResponse } from '@google/genai';
 
 export default function Chatbot() {
   const [isOpen, setIsOpen] = useState(false);
@@ -71,12 +71,38 @@ Be polite, professional, and concise in your responses. Always encourage users t
     }
 
     setIsLoading(true);
+    
+    // Add an empty bot message placeholder that we will update with the stream
+    setMessages(prev => [...prev, { role: 'bot', text: '' }]);
+    
     try {
-      const response = await chat.sendMessage({ message: input });
-      setMessages(prev => [...prev, { role: 'bot', text: response.text || 'Sorry, I could not understand that.' }]);
+      const responseStream = await chat.sendMessageStream({ message: input });
+      
+      let fullText = '';
+      let isFirstChunk = true;
+      
+      for await (const chunk of responseStream) {
+        if (isFirstChunk) {
+          setIsLoading(false); // Turn off loading indicator as soon as the first token arrives
+          isFirstChunk = false;
+        }
+        
+        const c = chunk as GenerateContentResponse;
+        fullText += (c.text || '');
+        
+        setMessages(prev => {
+          const newMessages = [...prev];
+          newMessages[newMessages.length - 1] = { role: 'bot', text: fullText };
+          return newMessages;
+        });
+      }
     } catch (error) {
       console.error("Chat error:", error);
-      setMessages(prev => [...prev, { role: 'bot', text: 'Sorry, I encountered an error. Please try again later.' }]);
+      setMessages(prev => {
+        const newMessages = [...prev];
+        newMessages[newMessages.length - 1] = { role: 'bot', text: 'Sorry, I encountered an error. Please try again later.' };
+        return newMessages;
+      });
     } finally {
       setIsLoading(false);
     }
