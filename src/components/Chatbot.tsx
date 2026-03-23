@@ -103,9 +103,10 @@ Be polite, professional, and concise in your responses. Always encourage users t
       setMessages(prev => {
         const newMessages = [...prev];
         const existingText = newMessages[newMessages.length - 1].text;
+        const errorMessage = error instanceof Error ? error.message : String(error);
         newMessages[newMessages.length - 1] = { 
           role: 'bot', 
-          text: existingText ? existingText + '\n\n[Error: Connection interrupted. Please try again.]' : 'Sorry, I encountered an error. Please try again later.' 
+          text: existingText ? existingText + `\n\n[Error: ${errorMessage}]` : `Sorry, I encountered an error: ${errorMessage}` 
         };
         return newMessages;
       });
