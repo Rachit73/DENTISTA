@@ -27,8 +27,13 @@ export default function Chatbot() {
       });
 
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Failed to get response');
+        const contentType = response.headers.get("content-type");
+        if (contentType && contentType.indexOf("application/json") !== -1) {
+          const errorData = await response.json();
+          throw new Error(errorData.error || 'Failed to get response');
+        } else {
+          throw new Error(`Server returned ${response.status} ${response.statusText}`);
+        }
       }
       
       const data = await response.json();
