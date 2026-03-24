@@ -28,9 +28,34 @@ async function startServer() {
 
   app.use(express.json());
 
-  // API routes
-  app.post("/api/chat", async (req, res) => {
+  // Request logging
+  app.use((req, res, next) => {
+    console.log(`[Server] ${req.method} ${req.url}`);
+    next();
+  });
+
+  // Custom error handler for JSON parsing errors
+  app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
+    if (err instanceof SyntaxError && 'status' in err && err.status === 400 && 'body' in err) {
+      console.error("JSON Parsing Error:", err.message);
+      return res.status(400).json({ error: "Invalid JSON payload" });
+    }
+    next(err);
+  });
+
+  // API Router
+  const apiRouter = express.Router();
+
+  // Health check
+  apiRouter.get("/health", (req, res) => {
+    res.json({ status: "ok", timestamp: new Date().toISOString() });
+  });
+
+  // Chat route
+  apiRouter.post("/chat", async (req, res) => {
     const { messages } = req.body;
+    console.log(`[Chat] Received request with ${messages?.length} messages`);
+    
     try {
       const groq = getGroq();
       const chatCompletion = await groq.chat.completions.create({
@@ -64,6 +89,14 @@ async function startServer() {
       res.status(500).json({ error: error instanceof Error ? error.message : "Failed to get response from Groq" });
     }
   });
+
+  // Catch-all for API routes to prevent falling through to SPA fallback
+  apiRouter.all("*", (req, res) => {
+    res.status(404).json({ error: `API route ${req.method} ${req.url} not found` });
+  });
+
+  // Mount API Router
+  app.use("/api", apiRouter);
 
   // Vite middleware for development
   if (process.env.NODE_ENV !== "production") {
