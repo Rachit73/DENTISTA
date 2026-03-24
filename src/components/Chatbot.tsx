@@ -22,17 +22,20 @@ export default function Chatbot() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          messages: [...messages, userMsg].map(m => ({ role: m.role, content: m.text }))
+          messages: [...messages, userMsg].map(m => ({ role: m.role === 'bot' ? 'assistant' : 'user', content: m.text }))
         }),
       });
 
-      if (!response.ok) throw new Error('Failed to get response');
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to get response');
+      }
       
       const data = await response.json();
       setMessages(prev => [...prev, { role: 'bot', text: data.response }]);
     } catch (error) {
       console.error("Chat error:", error);
-      setMessages(prev => [...prev, { role: 'bot', text: 'Sorry, I encountered an error.' }]);
+      setMessages(prev => [...prev, { role: 'bot', text: error instanceof Error ? error.message : 'Sorry, I encountered an error.' }]);
     } finally {
       setIsLoading(false);
     }
@@ -51,9 +54,9 @@ export default function Chatbot() {
           >
             <div className="bg-dentista-pink text-white p-4 flex justify-between items-center">
               <h3 className="font-semibold">Dentista Assistant</h3>
-              <button onClick={() => setIsOpen(false)}><X size={20} /></button>
+              <button onClick={() => setIsOpen(false)} aria-label="Close chatbot"><X size={20} /></button>
             </div>
-            <div className="flex-1 overflow-y-auto overscroll-contain p-4 space-y-3 flex flex-col">
+            <div className="flex-1 overflow-y-auto overscroll-contain p-4 space-y-3 flex flex-col" aria-live="polite">
               {messages.map((m, i) => (
                 <div key={i} className={`p-3 rounded-xl text-sm w-fit max-w-[85%] ${m.role === 'user' ? 'bg-pink-50 text-dentista-pink ml-auto border border-pink-100' : 'bg-gray-50 text-gray-700 border border-gray-100'}`}>
                   {m.text}
@@ -67,11 +70,13 @@ export default function Chatbot() {
                 disabled={isLoading}
                 className="flex-1 border border-gray-200 rounded-full px-4 py-2 text-sm focus:outline-none focus:border-dentista-pink disabled:opacity-50 disabled:bg-gray-50"
                 placeholder="Ask something..."
+                aria-label="Chat message"
                 onKeyDown={(e) => e.key === 'Enter' && !isLoading && handleSend()}
               />
               <button 
                 onClick={handleSend} 
                 disabled={isLoading || !input.trim()} 
+                aria-label="Send message"
                 className="bg-dentista-teal text-white p-2 rounded-full hover:bg-teal-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <Send size={16} />
@@ -82,6 +87,7 @@ export default function Chatbot() {
       </AnimatePresence>
       <button
         onClick={() => setIsOpen(!isOpen)}
+        aria-label="Toggle chatbot"
         className="bg-dentista-pink text-white p-4 rounded-full shadow-xl hover:scale-105 transition-transform"
       >
         <MessageCircle />

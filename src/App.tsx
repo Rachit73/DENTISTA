@@ -15,9 +15,9 @@ const Section = ({ id, title, children, className = "" }: { id?: string, title?:
     whileInView={{ opacity: 1, y: 0 }}
     viewport={{ once: true, margin: "-100px" }}
     transition={{ duration: 0.8, ease: "easeOut" }}
-    className={`py-24 px-6 will-change-transform will-change-opacity ${className}`}
+    className={`py-12 md:py-24 px-4 md:px-6 will-change-transform will-change-opacity ${className}`}
   >
-    {title && <h2 className="text-5xl font-extrabold text-dentista-dark mb-16 text-center tracking-tight">{title}</h2>}
+    {title && <h2 className="text-3xl md:text-5xl font-extrabold text-dentista-dark mb-8 md:mb-16 text-center tracking-tight">{title}</h2>}
     {children}
   </motion.section>
 );
@@ -51,7 +51,7 @@ export default function App() {
   return (
     <div className="min-h-screen bg-[#FAFAFA] overflow-x-hidden">
       {/* Navbar */}
-      <nav className="fixed top-0 left-0 right-0 bg-white/90 backdrop-blur-md z-40 border-b border-gray-100 shadow-sm">
+      <nav className="fixed top-0 left-0 right-0 bg-white/90 backdrop-blur-md z-40 border-b border-gray-100 shadow-sm" aria-label="Main Navigation">
         <div className="max-w-7xl mx-auto px-4 md:px-6 py-3 md:py-4 flex justify-between items-center">
           <div className="flex items-center gap-2 md:gap-3">
             <div className="w-10 h-10 md:w-14 md:h-14 rounded-full overflow-hidden border-2 border-dentista-pink shadow-sm bg-white flex-shrink-0 flex items-center justify-center">
@@ -59,7 +59,7 @@ export default function App() {
             </div>
             <span className="text-2xl md:text-3xl font-extrabold text-dentista-teal tracking-tighter">Dentista</span>
           </div>
-          <div className="hidden md:flex gap-8 font-medium text-gray-600">
+          <div className="hidden md:flex gap-8 font-medium text-gray-700">
             <a href="#home" className="hover:text-dentista-pink transition-colors">Home</a>
             <a href="#treatments" className="hover:text-dentista-pink transition-colors">Treatments</a>
             <a href="#about" className="hover:text-dentista-pink transition-colors">About</a>
@@ -72,16 +72,16 @@ export default function App() {
       </nav>
 
       {/* Hero Section */}
-      <section id="home" className="pt-32 pb-20 min-h-screen flex items-center px-6 bg-gradient-to-br from-pink-50/50 via-white to-teal-50/50">
+      <section id="home" className="pt-20 pb-12 min-h-screen flex items-center px-4 bg-gradient-to-br from-pink-50/50 via-white to-teal-50/50">
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
-          <div className="text-left space-y-6 md:space-y-8">
+          <div className="text-left space-y-4 md:space-y-8">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
-              className="inline-flex items-center gap-2 bg-teal-50 text-dentista-teal px-4 py-1.5 rounded-full text-sm font-semibold tracking-wide border border-teal-100"
+              className="inline-flex items-center gap-2 bg-teal-50 text-dentista-teal px-3 py-1 rounded-full text-xs md:text-sm font-semibold tracking-wide border border-teal-100"
             >
-              <Crown size={16} className="text-dentista-pink" />
+              <Crown size={14} className="text-dentista-pink" />
               Premium Dental Care
             </motion.div>
             <motion.h1 
@@ -136,15 +136,15 @@ export default function App() {
 
       {/* About Us Section */}
       <Section id="about" title="Meet Our Doctors" className="bg-pink-50/30">
-        <div className="max-w-6xl mx-auto space-y-24">
+        <div className="max-w-6xl mx-auto space-y-12 md:space-y-24">
           {/* Doctor 1 */}
-          <div className="flex flex-col md:flex-row items-center gap-16">
+          <div className="flex flex-col md:flex-row items-center gap-8 md:gap-16">
             <motion.div 
               initial={{ opacity: 0, x: -50 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
-              className="w-full md:w-1/2 h-[500px] rounded-3xl overflow-hidden shadow-2xl relative border-4 border-white will-change-transform"
+              className="w-full md:w-1/2 h-[300px] md:h-[500px] rounded-3xl overflow-hidden shadow-2xl relative border-4 border-white will-change-transform"
             >
               <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&q=80&w=800" alt="Dr. Deval Naik" loading="lazy" decoding="async" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
               <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-dentista-dark/80 to-transparent p-8">
@@ -263,13 +263,15 @@ export default function App() {
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 className="bg-white p-16 rounded-3xl shadow-2xl text-center flex flex-col items-center justify-center space-y-6 border-t-8 border-dentista-teal"
+                role="status"
+                aria-live="polite"
               >
                 <motion.div
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   transition={{ type: "spring", stiffness: 200, damping: 15, delay: 0.1 }}
                 >
-                  <CheckCircle2 className="text-dentista-teal w-24 h-24" />
+                  <CheckCircle2 className="text-dentista-teal w-24 h-24" aria-hidden="true" />
                 </motion.div>
                 <h3 className="text-3xl font-bold text-dentista-dark">Booking Confirmed!</h3>
                 <p className="text-gray-600 text-lg">Thank you. We will contact you shortly to confirm your time slot.</p>
@@ -281,26 +283,26 @@ export default function App() {
 
       {/* Contact Section */}
       <Section id="contact" title="Visit Us" className="bg-white">
-        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-10 mb-12">
-          <div className="flex flex-row md:flex-col items-center text-left md:text-center p-5 md:p-8 bg-pink-50/50 rounded-2xl md:rounded-3xl border border-pink-100 gap-4 md:gap-0">
-            <div className="bg-white p-3 md:p-4 rounded-full text-dentista-pink md:mb-4 shadow-sm flex-shrink-0"><MapPin className="w-6 h-6 md:w-8 md:h-8" /></div>
+        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-4 mb-8 md:mb-12">
+          <div className="flex flex-row md:flex-col items-center text-left md:text-center p-4 md:p-8 bg-pink-50/50 rounded-2xl border border-pink-100 gap-4">
+            <div className="bg-white p-3 rounded-full text-dentista-pink shadow-sm flex-shrink-0"><MapPin className="w-6 h-6" /></div>
             <div>
-              <h4 className="text-lg md:text-xl font-bold text-dentista-dark mb-1 md:mb-2">Location</h4>
-              <p className="text-sm md:text-base text-gray-600">101, Premium Plaza, Sector 18<span className="md:hidden">, </span><br className="hidden md:block"/>Noida, UP 201301</p>
+              <h4 className="text-base md:text-xl font-bold text-dentista-dark mb-1">Location</h4>
+              <p className="text-xs md:text-base text-gray-600">101, Premium Plaza, Sector 18<br/>Noida, UP 201301</p>
             </div>
           </div>
-          <div className="flex flex-row md:flex-col items-center text-left md:text-center p-5 md:p-8 bg-teal-50/50 rounded-2xl md:rounded-3xl border border-teal-100 gap-4 md:gap-0">
-            <div className="bg-white p-3 md:p-4 rounded-full text-dentista-teal md:mb-4 shadow-sm flex-shrink-0"><Phone className="w-6 h-6 md:w-8 md:h-8" /></div>
+          <div className="flex flex-row md:flex-col items-center text-left md:text-center p-4 md:p-8 bg-teal-50/50 rounded-2xl border border-teal-100 gap-4">
+            <div className="bg-white p-3 rounded-full text-dentista-teal shadow-sm flex-shrink-0"><Phone className="w-6 h-6" /></div>
             <div>
-              <h4 className="text-lg md:text-xl font-bold text-dentista-dark mb-1 md:mb-2">Phone</h4>
-              <p className="text-sm md:text-base text-gray-600">+91 98765 43210<span className="md:hidden"> | </span><br className="hidden md:block"/>Mon-Sat, 9am - 6pm</p>
+              <h4 className="text-base md:text-xl font-bold text-dentista-dark mb-1">Phone</h4>
+              <p className="text-xs md:text-base text-gray-600">+91 98765 43210<br/>Mon-Sat, 9am - 6pm</p>
             </div>
           </div>
-          <div className="flex flex-row md:flex-col items-center text-left md:text-center p-5 md:p-8 bg-pink-50/50 rounded-2xl md:rounded-3xl border border-pink-100 gap-4 md:gap-0">
-            <div className="bg-white p-3 md:p-4 rounded-full text-dentista-pink md:mb-4 shadow-sm flex-shrink-0"><Mail className="w-6 h-6 md:w-8 md:h-8" /></div>
+          <div className="flex flex-row md:flex-col items-center text-left md:text-center p-4 md:p-8 bg-pink-50/50 rounded-2xl border border-pink-100 gap-4">
+            <div className="bg-white p-3 rounded-full text-dentista-pink shadow-sm flex-shrink-0"><Mail className="w-6 h-6" /></div>
             <div>
-              <h4 className="text-lg md:text-xl font-bold text-dentista-dark mb-1 md:mb-2">Email</h4>
-              <p className="text-sm md:text-base text-gray-600">contact@dentista.in<span className="md:hidden"> | </span><br className="hidden md:block"/>support@dentista.in</p>
+              <h4 className="text-base md:text-xl font-bold text-dentista-dark mb-1">Email</h4>
+              <p className="text-xs md:text-base text-gray-600">contact@dentista.in<br/>support@dentista.in</p>
             </div>
           </div>
         </div>

@@ -4,11 +4,23 @@ import path from "path";
 import { fileURLToPath } from "url";
 import Groq from "groq-sdk";
 import dotenv from "dotenv";
+import fs from "fs";
 
 dotenv.config();
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
+let groqClient: Groq | null = null;
+
+function getGroq(): Groq {
+  if (!groqClient) {
+    const apiKey = process.env.GROQ_API_KEY;
+    if (!apiKey) {
+      throw new Error('GROQ_API_KEY environment variable is required');
+    }
+    groqClient = new Groq({ apiKey });
+  }
+  return groqClient;
+}
 
 async function startServer() {
   const app = express();
@@ -20,14 +32,36 @@ async function startServer() {
   app.post("/api/chat", async (req, res) => {
     const { messages } = req.body;
     try {
+      const groq = getGroq();
       const chatCompletion = await groq.chat.completions.create({
-        messages: messages,
-        model: "llama3-8b-8192",
+        messages: [
+          {
+            role: "system",
+            content: `You are a concise, professional, and highly knowledgeable dental assistant for Dentista Clinic.
+            
+            Clinic Information:
+            - Name: Dentista
+            - Doctors: Dr. Deval Naik, Dr. Tejal Shah (both Cosmetic & Restorative Dentists, 18+ years exp)
+            - Services: Teeth Cleaning, Root Canal, Braces & Aligners, Teeth Whitening, Dental Implants, Oral Surgery
+            - Location: 101, Premium Plaza, Sector 18, Noida, UP 201301
+            - Phone: +91 98765 43210 (Mon-Sat, 9am - 6pm)
+            - Email: contact@dentista.in, support@dentista.in
+
+            Guidelines:
+            1. Keep responses short, direct, and on-point.
+            2. If greeted, return a brief, professional greeting and ask how you can assist with their dental needs.
+            3. Answer questions strictly related to dentistry and Dentista Clinic services.
+            4. If asked about topics unrelated to dentistry or the clinic, politely decline to answer and redirect them to dental-related topics or clinic contact info.
+            5. Always maintain a helpful, professional tone.`
+          },
+          ...messages
+        ],
+        model: "llama-3.1-8b-instant",
       });
       res.json({ response: chatCompletion.choices[0]?.message?.content });
     } catch (error) {
       console.error("Groq API error:", error);
-      res.status(500).json({ error: "Failed to get response from Groq" });
+      res.status(500).json({ error: error instanceof Error ? error.message : "Failed to get response from Groq" });
     }
   });
 
@@ -38,6 +72,14 @@ async function startServer() {
       appType: "spa",
     });
     app.use(vite.middlewares);
+    app.get('*', async (req, res, next) => {
+      try {
+        const template = await vite.transformIndexHtml(req.originalUrl, fs.readFileSync(path.resolve('index.html'), 'utf-8'));
+        res.status(200).set({ 'Content-Type': 'text/html' }).end(template);
+      } catch (e) {
+        next(e);
+      }
+    });
   } else {
     const distPath = path.join(process.cwd(), 'dist');
     app.use(express.static(distPath));
