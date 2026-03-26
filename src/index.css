@@ -1,10 +1,10 @@
 @import "tailwindcss";
 
 @theme {
-  --color-dentista-pink: #F2277E;
-  --color-dentista-teal: #52A8A2;
-  --color-dentista-light: #F4F4F4;
-  --color-dentista-dark: #111111;
+  --color-rootdentz-pink: #F2277E;
+  --color-rootdentz-teal: #52A8A2;
+  --color-rootdentz-light: #F4F4F4;
+  --color-rootdentz-dark: #111111;
   --font-sans: 'Inter', sans-serif;
   --font-display: 'Montserrat', sans-serif;
 }
@@ -16,7 +16,7 @@ html {
 body {
   font-family: var(--font-sans);
   background-color: #FAFAFA;
-  color: var(--color-dentista-dark);
+  color: var(--color-rootdentz-dark);
 }
 
 h1, h2, h3, h4, h5, h6 {

@@ -17,7 +17,7 @@ const Section = ({ id, title, children, className = "" }: { id?: string, title?:
     transition={{ duration: 0.8, ease: "easeOut" }}
     className={`py-12 md:py-24 px-4 md:px-6 will-change-transform will-change-opacity ${className}`}
   >
-    {title && <h2 className="text-3xl md:text-5xl font-extrabold text-dentista-dark mb-8 md:mb-16 text-center tracking-tight">{title}</h2>}
+    {title && <h2 className="text-3xl md:text-5xl font-extrabold text-rootdentz-dark mb-8 md:mb-16 text-center tracking-tight">{title}</h2>}
     {children}
   </motion.section>
 );
@@ -28,13 +28,13 @@ const TreatmentCard = ({ title, desc, img, icon: Icon }: { title: string, desc: 
     transition={{ type: "spring", stiffness: 300, damping: 20 }}
     className="bg-white p-8 rounded-3xl shadow-lg border border-gray-100 overflow-hidden group relative will-change-transform"
   >
-    <div className="absolute top-6 right-6 bg-pink-50 p-3 rounded-full text-dentista-pink group-hover:bg-dentista-pink group-hover:text-white transition-colors duration-300">
+    <div className="absolute top-6 right-6 bg-pink-50 p-3 rounded-full text-rootdentz-pink group-hover:bg-rootdentz-pink group-hover:text-white transition-colors duration-300">
       <Icon size={24} />
     </div>
     <div className="h-48 mb-6 overflow-hidden rounded-2xl">
       <img src={img} alt={title} loading="lazy" decoding="async" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" referrerPolicy="no-referrer" />
     </div>
-    <h3 className="text-2xl font-bold text-dentista-dark mb-3">{title}</h3>
+    <h3 className="text-2xl font-bold text-rootdentz-dark mb-3">{title}</h3>
     <p className="text-gray-600 leading-relaxed">{desc}</p>
   </motion.div>
 );
@@ -54,18 +54,18 @@ export default function App() {
       <nav className="fixed top-0 left-0 right-0 bg-white/90 backdrop-blur-md z-40 border-b border-gray-100 shadow-sm" aria-label="Main Navigation">
         <div className="max-w-7xl mx-auto px-4 md:px-6 py-3 md:py-4 flex justify-between items-center">
           <div className="flex items-center gap-2 md:gap-3">
-            <div className="w-10 h-10 md:w-14 md:h-14 rounded-full overflow-hidden border-2 border-dentista-pink shadow-sm bg-white flex-shrink-0 flex items-center justify-center">
-              <img src="/logo.svg" alt="Dentista Logo" className="w-full h-full p-1" onError={(e) => { e.currentTarget.src = 'https://ui-avatars.com/api/?name=D&background=F2277E&color=fff&rounded=true' }} />
+            <div className="w-10 h-10 md:w-14 md:h-14 rounded-full overflow-hidden border-2 border-rootdentz-pink shadow-sm bg-white flex-shrink-0 flex items-center justify-center">
+              <img src="/logo.svg" alt="ROOT DENTZ Logo" className="w-full h-full p-1" onError={(e) => { e.currentTarget.src = 'https://ui-avatars.com/api/?name=RD&background=F2277E&color=fff&rounded=true' }} />
             </div>
-            <span className="text-2xl md:text-3xl font-extrabold text-dentista-teal tracking-tighter">Dentista</span>
+            <span className="text-2xl md:text-3xl font-extrabold text-rootdentz-teal tracking-tighter uppercase">ROOT DENTZ</span>
           </div>
           <div className="hidden md:flex gap-8 font-medium text-gray-700">
-            <a href="#home" className="hover:text-dentista-pink transition-colors">Home</a>
-            <a href="#treatments" className="hover:text-dentista-pink transition-colors">Treatments</a>
-            <a href="#about" className="hover:text-dentista-pink transition-colors">About</a>
-            <a href="#contact" className="hover:text-dentista-pink transition-colors">Contact</a>
+            <a href="#home" className="hover:text-rootdentz-pink transition-colors">Home</a>
+            <a href="#treatments" className="hover:text-rootdentz-pink transition-colors">Treatments</a>
+            <a href="#about" className="hover:text-rootdentz-pink transition-colors">About</a>
+            <a href="#contact" className="hover:text-rootdentz-pink transition-colors">Contact</a>
           </div>
-          <a href="#book" className="bg-dentista-pink text-white px-4 py-2 md:px-6 md:py-2.5 rounded-full text-sm md:text-base font-semibold hover:bg-pink-600 transition-colors shadow-md hover:shadow-lg whitespace-nowrap">
+          <a href="#book" className="bg-rootdentz-pink text-white px-4 py-2 md:px-6 md:py-2.5 rounded-full text-sm md:text-base font-semibold hover:bg-pink-600 transition-colors shadow-md hover:shadow-lg whitespace-nowrap">
             Book Now
           </a>
         </div>
@@ -79,18 +79,18 @@ export default function App() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
-              className="inline-flex items-center gap-2 bg-teal-50 text-dentista-teal px-3 py-1 rounded-full text-xs md:text-sm font-semibold tracking-wide border border-teal-100"
+              className="inline-flex items-center gap-2 bg-teal-50 text-rootdentz-teal px-3 py-1 rounded-full text-xs md:text-sm font-semibold tracking-wide border border-teal-100"
             >
-              <Crown size={14} className="text-dentista-pink" />
+              <Crown size={14} className="text-rootdentz-pink" />
               Premium Dental Care
             </motion.div>
             <motion.h1 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.1 }}
-              className="text-5xl sm:text-6xl md:text-7xl font-extrabold text-dentista-dark leading-tight tracking-tighter"
+              className="text-5xl sm:text-6xl md:text-7xl font-extrabold text-rootdentz-dark leading-tight tracking-tighter"
             >
-              A confident smile begins with <span className="text-transparent bg-clip-text bg-gradient-to-r from-dentista-pink to-pink-400">healthy teeth.</span>
+              A confident smile begins with <span className="text-transparent bg-clip-text bg-gradient-to-r from-rootdentz-pink to-pink-400">healthy teeth.</span>
             </motion.h1>
             <motion.p 
               initial={{ opacity: 0, y: 20 }}
@@ -105,7 +105,7 @@ export default function App() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.3 }}
             >
-              <a href="#book" className="inline-block bg-dentista-pink text-white px-8 py-4 md:px-10 md:py-5 rounded-full text-lg md:text-xl font-bold shadow-xl hover:bg-pink-600 hover:shadow-2xl hover:-translate-y-1 transition-all duration-300">
+              <a href="#book" className="inline-block bg-rootdentz-pink text-white px-8 py-4 md:px-10 md:py-5 rounded-full text-lg md:text-xl font-bold shadow-xl hover:bg-pink-600 hover:shadow-2xl hover:-translate-y-1 transition-all duration-300">
                 Book Appointment
               </a>
             </motion.div>
@@ -117,7 +117,7 @@ export default function App() {
             className="relative h-[400px] sm:h-[500px] md:h-[600px] rounded-[2rem] md:rounded-[3rem] overflow-hidden shadow-2xl border-4 border-white"
           >
             <img src="https://images.unsplash.com/photo-1600170311833-c2cf5280ce49?q=80&w=2000" alt="Modern Dental Clinic" fetchPriority="high" decoding="async" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
-            <div className="absolute inset-0 bg-gradient-to-t from-dentista-teal/20 to-transparent mix-blend-multiply"></div>
+            <div className="absolute inset-0 bg-gradient-to-t from-rootdentz-teal/20 to-transparent mix-blend-multiply"></div>
           </motion.div>
         </div>
       </section>
@@ -147,7 +147,7 @@ export default function App() {
               className="w-full md:w-1/2 h-[300px] md:h-[500px] rounded-3xl overflow-hidden shadow-2xl relative border-4 border-white will-change-transform"
             >
               <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&q=80&w=800" alt="Dr. Deval Naik" loading="lazy" decoding="async" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-dentista-dark/80 to-transparent p-8">
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-rootdentz-dark/80 to-transparent p-8">
                 <p className="text-white font-bold text-2xl">Dr. Deval Naik</p>
                 <p className="text-pink-200">Cosmetic & Restorative Dentist</p>
               </div>
@@ -159,7 +159,7 @@ export default function App() {
               transition={{ duration: 0.8, delay: 0.2 }}
               className="flex-1 space-y-6"
             >
-              <h3 className="text-4xl font-bold text-dentista-teal">Dr. Deval Naik</h3>
+              <h3 className="text-4xl font-bold text-rootdentz-teal">Dr. Deval Naik</h3>
               <p className="text-xl text-gray-700 leading-relaxed">
                 Dr. Deval Naik earned her Bachelors in Dental Surgery from MGV Dental College & Hospital, Nasik in 2005 with an emphasis on Cosmetic & Restorative Dentistry.
               </p>
@@ -168,11 +168,11 @@ export default function App() {
               </p>
               <div className="pt-6 flex gap-8">
                 <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex-1 text-center">
-                  <p className="text-4xl font-extrabold text-dentista-pink">18+</p>
+                  <p className="text-4xl font-extrabold text-rootdentz-pink">18+</p>
                   <p className="text-gray-500 font-medium mt-1">Years Exp.</p>
                 </div>
                 <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex-1 text-center">
-                  <p className="text-4xl font-extrabold text-dentista-pink">2005</p>
+                  <p className="text-4xl font-extrabold text-rootdentz-pink">2005</p>
                   <p className="text-gray-500 font-medium mt-1">Graduation</p>
                 </div>
               </div>
@@ -189,7 +189,7 @@ export default function App() {
               className="w-full md:w-1/2 h-[500px] rounded-3xl overflow-hidden shadow-2xl relative border-4 border-white will-change-transform"
             >
               <img src="https://images.unsplash.com/photo-1527613426441-4da17471b66d?auto=format&fit=crop&q=80&w=800" alt="Dr. Tejal Shah" loading="lazy" decoding="async" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-dentista-dark/80 to-transparent p-8">
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-rootdentz-dark/80 to-transparent p-8">
                 <p className="text-white font-bold text-2xl">Dr. Tejal Shah</p>
                 <p className="text-pink-200">Cosmetic & Restorative Dentist</p>
               </div>
@@ -201,20 +201,20 @@ export default function App() {
               transition={{ duration: 0.8, delay: 0.2 }}
               className="flex-1 space-y-6"
             >
-              <h3 className="text-4xl font-bold text-dentista-teal">Dr. Tejal Shah</h3>
+              <h3 className="text-4xl font-bold text-rootdentz-teal">Dr. Tejal Shah</h3>
               <p className="text-xl text-gray-700 leading-relaxed">
-                Dr. Tejal Shah is a co-founder & Dental Surgeon at Dentista. She obtained her Bachelor of Dental Surgery from Maharashtra University of Health Science (Nashik) in 2005.
+                Dr. Tejal Shah is a co-founder & Dental Surgeon at ROOT DENTZ. She obtained her Bachelor of Dental Surgery from Maharashtra University of Health Science (Nashik) in 2005.
               </p>
               <p className="text-xl text-gray-700 leading-relaxed">
                 As a Cosmetic & Restorative Dentist, Dr. Shah brings her extensive experience and passion for creating beautiful, healthy smiles to every patient she treats.
               </p>
               <div className="pt-6 flex gap-8">
                 <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex-1 text-center">
-                  <p className="text-4xl font-extrabold text-dentista-pink">18+</p>
+                  <p className="text-4xl font-extrabold text-rootdentz-pink">18+</p>
                   <p className="text-gray-500 font-medium mt-1">Years Exp.</p>
                 </div>
                 <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex-1 text-center">
-                  <p className="text-4xl font-extrabold text-dentista-pink">2005</p>
+                  <p className="text-4xl font-extrabold text-rootdentz-pink">2005</p>
                   <p className="text-gray-500 font-medium mt-1">Graduation</p>
                 </div>
               </div>
@@ -224,7 +224,7 @@ export default function App() {
       </Section>
 
       {/* Book Appointment Section */}
-      <Section id="book" title="Book Your Consultation" className="bg-dentista-teal text-white relative overflow-hidden">
+      <Section id="book" title="Book Your Consultation" className="bg-rootdentz-teal text-white relative overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-full bg-[url('https://images.unsplash.com/photo-1606811841689-23dfddce3e95?q=80&w=2000')] bg-cover bg-center opacity-10 mix-blend-overlay pointer-events-none"></div>
         <div className="max-w-2xl mx-auto relative z-10">
           <AnimatePresence mode="wait">
@@ -235,25 +235,25 @@ export default function App() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95 }}
                 onSubmit={handleBooking} 
-                className="space-y-6 bg-white p-10 rounded-3xl shadow-2xl text-gray-800 border-t-8 border-dentista-pink"
+                className="space-y-6 bg-white p-10 rounded-3xl shadow-2xl text-gray-800 border-t-8 border-rootdentz-pink"
               >
                 <div>
                   <label className="block text-sm font-semibold text-gray-600 mb-2">Full Name</label>
-                  <input required type="text" placeholder="John Doe" className="w-full p-4 rounded-2xl bg-gray-50 border border-gray-200 focus:ring-2 focus:ring-dentista-pink focus:border-transparent outline-none transition-all" />
+                  <input required type="text" placeholder="John Doe" className="w-full p-4 rounded-2xl bg-gray-50 border border-gray-200 focus:ring-2 focus:ring-rootdentz-pink focus:border-transparent outline-none transition-all" />
                 </div>
                 <div>
                   <label className="block text-sm font-semibold text-gray-600 mb-2">Phone Number</label>
-                  <input required type="tel" placeholder="+91 98765 43210" className="w-full p-4 rounded-2xl bg-gray-50 border border-gray-200 focus:ring-2 focus:ring-dentista-pink focus:border-transparent outline-none transition-all" />
+                  <input required type="tel" placeholder="+91 98765 43210" className="w-full p-4 rounded-2xl bg-gray-50 border border-gray-200 focus:ring-2 focus:ring-rootdentz-pink focus:border-transparent outline-none transition-all" />
                 </div>
                 <div>
                   <label className="block text-sm font-semibold text-gray-600 mb-2">Preferred Date</label>
-                  <input required type="date" className="w-full p-4 rounded-2xl bg-gray-50 border border-gray-200 focus:ring-2 focus:ring-dentista-pink focus:border-transparent outline-none transition-all" />
+                  <input required type="date" className="w-full p-4 rounded-2xl bg-gray-50 border border-gray-200 focus:ring-2 focus:ring-rootdentz-pink focus:border-transparent outline-none transition-all" />
                 </div>
                 <div>
                   <label className="block text-sm font-semibold text-gray-600 mb-2">Preferred Time</label>
-                  <input required type="time" className="w-full p-4 rounded-2xl bg-gray-50 border border-gray-200 focus:ring-2 focus:ring-dentista-pink focus:border-transparent outline-none transition-all" />
+                  <input required type="time" className="w-full p-4 rounded-2xl bg-gray-50 border border-gray-200 focus:ring-2 focus:ring-rootdentz-pink focus:border-transparent outline-none transition-all" />
                 </div>
-                <button type="submit" className="w-full bg-dentista-pink text-white py-5 rounded-2xl text-xl font-bold hover:bg-pink-600 hover:shadow-lg transition-all transform active:scale-95">
+                <button type="submit" className="w-full bg-rootdentz-pink text-white py-5 rounded-2xl text-xl font-bold hover:bg-pink-600 hover:shadow-lg transition-all transform active:scale-95">
                   Confirm Appointment
                 </button>
               </motion.form>
@@ -262,7 +262,7 @@ export default function App() {
                 key="success"
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="bg-white p-16 rounded-3xl shadow-2xl text-center flex flex-col items-center justify-center space-y-6 border-t-8 border-dentista-teal"
+                className="bg-white p-16 rounded-3xl shadow-2xl text-center flex flex-col items-center justify-center space-y-6 border-t-8 border-rootdentz-teal"
                 role="status"
                 aria-live="polite"
               >
@@ -271,9 +271,9 @@ export default function App() {
                   animate={{ scale: 1 }}
                   transition={{ type: "spring", stiffness: 200, damping: 15, delay: 0.1 }}
                 >
-                  <CheckCircle2 className="text-dentista-teal w-24 h-24" aria-hidden="true" />
+                  <CheckCircle2 className="text-rootdentz-teal w-24 h-24" aria-hidden="true" />
                 </motion.div>
-                <h3 className="text-3xl font-bold text-dentista-dark">Booking Confirmed!</h3>
+                <h3 className="text-3xl font-bold text-rootdentz-dark">Booking Confirmed!</h3>
                 <p className="text-gray-600 text-lg">Thank you. We will contact you shortly to confirm your time slot.</p>
               </motion.div>
             )}
@@ -285,24 +285,24 @@ export default function App() {
       <Section id="contact" title="Visit Us" className="bg-white">
         <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-4 mb-8 md:mb-12">
           <div className="flex flex-row md:flex-col items-center text-left md:text-center p-4 md:p-8 bg-pink-50/50 rounded-2xl border border-pink-100 gap-4">
-            <div className="bg-white p-3 rounded-full text-dentista-pink shadow-sm flex-shrink-0"><MapPin className="w-6 h-6" /></div>
+            <div className="bg-white p-3 rounded-full text-rootdentz-pink shadow-sm flex-shrink-0"><MapPin className="w-6 h-6" /></div>
             <div>
-              <h4 className="text-base md:text-xl font-bold text-dentista-dark mb-1">Location</h4>
+              <h4 className="text-base md:text-xl font-bold text-rootdentz-dark mb-1">Location</h4>
               <p className="text-xs md:text-base text-gray-600">101, Premium Plaza, Sector 18<br/>Noida, UP 201301</p>
             </div>
           </div>
           <div className="flex flex-row md:flex-col items-center text-left md:text-center p-4 md:p-8 bg-teal-50/50 rounded-2xl border border-teal-100 gap-4">
-            <div className="bg-white p-3 rounded-full text-dentista-teal shadow-sm flex-shrink-0"><Phone className="w-6 h-6" /></div>
+            <div className="bg-white p-3 rounded-full text-rootdentz-teal shadow-sm flex-shrink-0"><Phone className="w-6 h-6" /></div>
             <div>
-              <h4 className="text-base md:text-xl font-bold text-dentista-dark mb-1">Phone</h4>
+              <h4 className="text-base md:text-xl font-bold text-rootdentz-dark mb-1">Phone</h4>
               <p className="text-xs md:text-base text-gray-600">+91 98765 43210<br/>Mon-Sat, 9am - 6pm</p>
             </div>
           </div>
           <div className="flex flex-row md:flex-col items-center text-left md:text-center p-4 md:p-8 bg-pink-50/50 rounded-2xl border border-pink-100 gap-4">
-            <div className="bg-white p-3 rounded-full text-dentista-pink shadow-sm flex-shrink-0"><Mail className="w-6 h-6" /></div>
+            <div className="bg-white p-3 rounded-full text-rootdentz-pink shadow-sm flex-shrink-0"><Mail className="w-6 h-6" /></div>
             <div>
-              <h4 className="text-base md:text-xl font-bold text-dentista-dark mb-1">Email</h4>
-              <p className="text-xs md:text-base text-gray-600">contact@dentista.in<br/>support@dentista.in</p>
+              <h4 className="text-base md:text-xl font-bold text-rootdentz-dark mb-1">Email</h4>
+              <p className="text-xs md:text-base text-gray-600">contact@rootdentz.in<br/>support@rootdentz.in</p>
             </div>
           </div>
         </div>
@@ -320,14 +320,14 @@ export default function App() {
       </Section>
 
       {/* Footer */}
-      <footer className="bg-dentista-dark text-gray-400 py-12 text-center border-t-4 border-dentista-pink">
+      <footer className="bg-rootdentz-dark text-gray-400 py-12 text-center border-t-4 border-rootdentz-pink">
         <div className="flex justify-center items-center gap-3 mb-6">
-          <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-dentista-pink shadow-sm bg-white flex-shrink-0 flex items-center justify-center">
-            <img src="/logo.svg" alt="Dentista Logo" className="w-full h-full p-1.5" onError={(e) => { e.currentTarget.src = 'https://ui-avatars.com/api/?name=D&background=F2277E&color=fff&rounded=true' }} />
+          <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-rootdentz-pink shadow-sm bg-white flex-shrink-0 flex items-center justify-center">
+            <img src="/logo.svg" alt="ROOT DENTZ Logo" className="w-full h-full p-1.5" onError={(e) => { e.currentTarget.src = 'https://ui-avatars.com/api/?name=RD&background=F2277E&color=fff&rounded=true' }} />
           </div>
-          <span className="text-3xl font-extrabold text-white tracking-tighter">Dentista</span>
+          <span className="text-3xl font-extrabold text-white tracking-tighter uppercase">ROOT DENTZ</span>
         </div>
-        <p>&copy; {new Date().getFullYear()} Dentista Clinic. All rights reserved.</p>
+        <p>&copy; {new Date().getFullYear()} ROOT DENTZ Clinic. All rights reserved.</p>
       </footer>
 
       <Chatbot />
