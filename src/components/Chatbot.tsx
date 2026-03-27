@@ -90,13 +90,13 @@ export default function Chatbot() {
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
             className="w-80 sm:w-96 h-[500px] bg-white rounded-2xl shadow-2xl flex flex-col overflow-hidden mb-4 border border-gray-100"
           >
-            <div className="bg-rootdentz-pink text-white p-4 flex justify-between items-center shadow-md">
+            <div className="bg-urbandent-pink text-white p-4 flex justify-between items-center shadow-md">
               <div className="flex items-center gap-2">
                 <div className="bg-white/20 p-1.5 rounded-lg">
                   <Bot size={20} />
                 </div>
                 <div>
-                  <h3 className="font-bold text-sm">ROOT DENTZ Assistant</h3>
+                  <h3 className="font-bold text-sm">URBANDENT Assistant</h3>
                   <p className="text-[10px] opacity-80">Online & Ready to help</p>
                 </div>
               </div>
@@ -117,17 +117,17 @@ export default function Chatbot() {
             <div className="flex-1 overflow-y-auto overscroll-contain p-4 space-y-4 flex flex-col bg-gray-50/50" aria-live="polite">
               {messages.map((m, i) => (
                 <div key={i} className={`flex gap-2 ${m.role === 'user' ? 'flex-row-reverse' : 'flex-row'}`}>
-                  <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${m.role === 'user' ? 'bg-rootdentz-pink text-white' : 'bg-rootdentz-teal text-white'}`}>
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${m.role === 'user' ? 'bg-urbandent-pink text-white' : 'bg-urbandent-teal text-white'}`}>
                     {m.role === 'user' ? <User size={14} /> : <Bot size={14} />}
                   </div>
-                  <div className={`p-3 rounded-2xl text-sm max-w-[80%] shadow-sm ${m.role === 'user' ? 'bg-rootdentz-pink text-white rounded-tr-none' : 'bg-white text-gray-700 border border-gray-100 rounded-tl-none'}`}>
+                  <div className={`p-3 rounded-2xl text-sm max-w-[80%] shadow-sm ${m.role === 'user' ? 'bg-urbandent-pink text-white rounded-tr-none' : 'bg-white text-gray-700 border border-gray-100 rounded-tl-none'}`}>
                     {m.text}
                   </div>
                 </div>
               ))}
               {isLoading && (
                 <div className="flex gap-2 flex-row">
-                  <div className="w-8 h-8 rounded-full bg-rootdentz-teal text-white flex items-center justify-center flex-shrink-0">
+                  <div className="w-8 h-8 rounded-full bg-urbandent-teal text-white flex items-center justify-center flex-shrink-0">
                     <Bot size={14} />
                   </div>
                   <div className="p-3 rounded-2xl bg-white text-gray-700 border border-gray-100 rounded-tl-none shadow-sm">
@@ -145,7 +145,7 @@ export default function Chatbot() {
                     <button 
                       key={i} 
                       onClick={() => handleQuickAction(action)}
-                      className="text-[11px] bg-white border border-gray-200 text-gray-600 px-3 py-1.5 rounded-full hover:border-rootdentz-pink hover:text-rootdentz-pink transition-all shadow-sm"
+                      className="text-[11px] bg-white border border-gray-200 text-gray-600 px-3 py-1.5 rounded-full hover:border-urbandent-pink hover:text-urbandent-pink transition-all shadow-sm"
                     >
                       {action}
                     </button>
@@ -160,7 +160,7 @@ export default function Chatbot() {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 disabled={isLoading}
-                className="flex-1 border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-rootdentz-pink/20 focus:border-rootdentz-pink disabled:opacity-50 disabled:bg-gray-50 transition-all"
+                className="flex-1 border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-urbandent-pink/20 focus:border-urbandent-pink disabled:opacity-50 disabled:bg-gray-50 transition-all"
                 placeholder="Type your message..."
                 aria-label="Chat message"
                 onKeyDown={(e) => e.key === 'Enter' && handleSend()}
@@ -170,7 +170,7 @@ export default function Chatbot() {
                 onClick={handleSend} 
                 disabled={isLoading || !input.trim()} 
                 aria-label="Send message"
-                className="bg-rootdentz-teal text-white p-2.5 rounded-xl hover:bg-teal-600 transition-all shadow-md active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:scale-100"
+                className="bg-urbandent-teal text-white p-2.5 rounded-xl hover:bg-teal-600 transition-all shadow-md active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:scale-100"
               >
                 <Send size={18} />
               </button>
@@ -181,7 +181,7 @@ export default function Chatbot() {
       <button
         onClick={() => setIsOpen(!isOpen)}
         aria-label="Toggle chatbot"
-        className="bg-rootdentz-pink text-white p-4 rounded-full shadow-2xl hover:scale-110 transition-all active:scale-95 flex items-center justify-center"
+        className="bg-urbandent-pink text-white p-4 rounded-full shadow-2xl hover:scale-110 transition-all active:scale-95 flex items-center justify-center"
       >
         {isOpen ? <X /> : <MessageCircle />}
       </button>
